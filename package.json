@@ -1,0 +1,25 @@
+{
+  "name": "API_ADORO_MAR",
+  "version": "0.0.1",
+  "description": "api rest de armazenamento de produtos",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CassioPimentel/api_adoro_mar.git"
+  },
+  "author": "Cassio Alves Pimentel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CassioPimentel/api_adoro_mar/issues"
+  },
+  "homepage": "https://github.com/CassioPimentel/api_adoro_mar",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.14",
+    "validator": "^5.2.0"
+  }
+}
