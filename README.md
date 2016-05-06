@@ -15,6 +15,13 @@
 - Node V0.8+
 - MongoDB server
 
+### Dependencias
+
+- body-parser 1.15.0
+- express 4.13.4
+- mongoose4.4.14
+- validator 5.2.0
+
 ### Configurar o App
 
 - Apos baixar o projeto, acesse a pasta raiz e instale as dependências com _npm install_.
@@ -81,4 +88,4 @@
 		o produto que será excluído.
 
 ###Demo
-	Se quiser pode usar esse link para fazer as requisições, apenas seguindo os passos de como testar o APP.
+	Se quiser pode usar esse link para fazer as requisições, apenas seguindo ospassos de como testar o APP.	
