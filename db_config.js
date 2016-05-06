@@ -17,6 +17,7 @@ db.once('open', function(){ //no evento de abertura da conexao, cria o esquema d
 
 		nome: String,
 		preco: Number,
+		cor: String,
 		descricao: String,
 		tamanho: [tamanho],
 		created_at: Date
