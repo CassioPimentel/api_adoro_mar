@@ -8,6 +8,8 @@ app.listen(process.env.PORT || 8080);
 
 app.use(bodyparser.json());
 
+app.set('json spaces', 2);	
+
 app.use(bodyparser.urlencoded({
 
 	extended: true		
