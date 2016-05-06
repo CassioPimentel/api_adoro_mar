@@ -14,34 +14,87 @@ exports.list = function(callback){
 	});
 };
 
-exports.Produto = function(nome, quantidadeProdutos, tamanho, callback){
+exports.Produto = function(nome, callback){
 
-	db.Produto.findById(nome, function(error, produto){
+	db.Produto.findOne({nome: nome},function(error, produto) {
+
 		if(error) {
 
-			callback({erro: 'O produto não exite'});
+			callback({error: 'Não foi possivel retornar o produto'});
+		}else {
+			callback(produto);
+		}
+
+	});
+}
+
+exports.Pedido = function(nome, tamanho, callback){
+ 
+	//console.log('nome: ' + nome)
+	console.log('tamanho: ' + tamanho);
+
+	db.Produto.findOne({nome:nome}, function(error, produto){
+		if(error) {
+
+			callback({error: 'O produto não exite'});
 		} else {
 
-			if(produto.tamanho.find(tamanho).count() < quantidadeProdutos) {
-				callback({erro: 'Não há produtos suficientes com o tamanho desejado em estoque para o seu pedido'});
-			}
+			//console.log("produto tamanhooo= " + produto.tamanho);
 
-			if(quantidadeProdutos){
-				produto.quantidadeProdutos -= quantidadeProdutos;
-			}
+			for (var i in tamanho) {
 
-			if(tamanho){
+				if(tamanho[i].tamanho == 'P') {
 
-				if(tamanho.substring(tamanho.indexOf('=')) == 'P') {
+					if(!produto.tamanho[i].tamanho) {
 
-					produto.tamanho.P -= quantidadeProdutos; 
-				}else if(tamanho == 'M'){
+						callback({error: 'Não exite tamanho P para este produto'});
+						return;
+					}else {
 
-					produto.tamanho.M -= quantidadeProdutos;
+						if(produto.tamanho[i].quantidade < tamanho[i].quantidade) {
+
+							callback({error: 'Descupe, mas só tenho ' + produto.tamanho[i].quantidade + ' do ' + nome + ' do tamanho P em estoque'});
+							return;
+						} else {
+
+							produto.tamanho[i].quantidade = produto.tamanho[i].quantidade - tamanho[i].quantidade;
+						}
+					}
+				}else if(tamanho[i].tamanho == 'M') {
+
+					if(!produto.tamanho[i].tamanho) {
+
+						callback({error: 'Não exite tamanho M para este produto'});
+						return;
+					}else {
+
+						if(produto.tamanho[i].quantidade < tamanho[i].quantidade) {
+
+							callback({error: 'Descupe, mas só tenho ' + produto.tamanho[i].quantidade + ' do ' + nome + ' do tamanho M em estoque'});
+							return;
+						} else {
+
+							produto.tamanho[i].quantidade = produto.tamanho[i].quantidade - tamanho[i].quantidade;
+						}
+					}
 				}else {
 
-					produto.tamanho.G -= quantidadeProdutos; 
-				}
+					if(!produto.tamanho[i].tamanho) {
+
+						callback({error: 'Não exite tamanho G para este produto'});
+						return;
+					}else {
+
+						if(produto.tamanho[i].quantidade < tamanho[i].quantidade) {
+
+							callback({error: 'Descupe, mas só tenho ' + produto.tamanho[i].quantidade + ' do ' + nome + ' do tamanho G em estoque'});
+							return;
+						} else {
+
+							produto.tamanho[i].quantidade = produto.tamanho[i].quantidade - tamanho[i].quantidade;
+						}
+					}
+				}																																																																											 
 			}
 			
 			produto.save(function(error, produto){
@@ -51,18 +104,19 @@ exports.Produto = function(nome, quantidadeProdutos, tamanho, callback){
 				callback({erro: 'Não foi possivel atualizar o produto'});
 			} else {
 
-				callback(produto); //produto é uma instancia do Model produto criado acima
+				callback(produto);
 			}
 		});
 		}
 	})
 };
 
-exports.save = function(nome, preco, descricao, tamanho, callback){
+exports.save = function(nome, preco, descricao, cor, tamanho, callback){
 
 	new db.Produto({
 		'nome': nome,
 		'preco': preco,
+		'cor': cor,
 		'descricao': descricao,
 		'tamanho': tamanho,
 		'created_at': new Date()
@@ -79,24 +133,28 @@ exports.save = function(nome, preco, descricao, tamanho, callback){
 
 };
 
-exports.update = function(nome, preco, descricao, quantidadeEstoque, tamanho, callback){
+exports.update = function(nome, preco, descricao, cor, tamanho, callback){
 
-	db.Produto.findById(id, function(error, produto){
+	db.Produto.findOne(nome, function(error, produto){
 
 		if(nome){
-			Produto.nome = nome
+			produto.nome = nome;
 		}
 
 		if(preco){
-			Produto.preco = preco
+			produto.preco = preco;
 		}
 
 		if(descricao){
-			produto.descricao = descricao 
+			produto.descricao = descricao;
+		}
+
+		if(cor){
+			produto.cor = cor; 
 		}
 
 		if(tamanho){
-			produto.tamanho = tamanho 
+			produto.tamanho = tamanho;
 		}
 
 		produto.save(function(error, produto){
@@ -106,7 +164,7 @@ exports.update = function(nome, preco, descricao, quantidadeEstoque, tamanho, ca
 				callback({erro: 'Não foi possivel atualizar o produto'});
 			} else {
 
-				callback(produto); //produto é uma instancia do Model produto criado acima
+				callback(produto);
 			}
 		});
 
@@ -115,7 +173,7 @@ exports.update = function(nome, preco, descricao, quantidadeEstoque, tamanho, ca
 
 exports.delete = function(id, callback){
 
-	db.Produto.findById(id, function(error, produto){ //faz uma busca no banco mongo pelo id
+	db.Produto.findById(id, function(error, produto){
 		if(error) {
 
 			res.json({erro: 'Não foi possivel encontrar o produto'});
@@ -127,7 +185,7 @@ exports.delete = function(id, callback){
 
 					callback({response: 'produto excluido com sucesso'});
 				}
-			}); //produto é uma instancia do model produto criado acima
+			});
 		}
 	})
 };
