@@ -91,4 +91,4 @@
 	Se quiser pode usar esse link para fazer as requisições, apenas seguindo os 
 	passos de como testar o APP.	
 	
-		https://api-adoro-mar.herokuapp.com/
+	https://api-adoro-mar.herokuapp.com/
