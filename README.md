@@ -88,4 +88,5 @@
 		o produto que será excluído.
 
 ###Demo
-	Se quiser pode usar esse link para fazer as requisições, apenas seguindo ospassos de como testar o APP.	
+	Se quiser pode usar esse link para fazer as requisições, apenas seguindo os 
+	passos de como testar o APP.	
