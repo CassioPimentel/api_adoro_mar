@@ -29,7 +29,7 @@
 
 ### Testando o App
 	Para testar o App basta acessar o endereço http://localhost:8080 no navegador ou usando
-	o [PostMan](https://www.getpostman.com/).
+	o PostMan.
 
 - Buscar todos os Produtos
 		Para buscar todos os produtos basta fazer uma requisição GET em: http://localhost:8080/produto.
